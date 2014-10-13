@@ -1,5 +1,6 @@
 from django.db import models
 
+from .managers import OrderManager
 
 class Order(models.Model):
     FCM = 'FCM'
@@ -10,6 +11,8 @@ class Order(models.Model):
     )
     shipping_method = models.CharField(max_length=100, choices=SHIPPING_CHOICES)
     date_completed = models.DateTimeField()
+
+    objects = OrderManager()
 
 
 class OrderItem(models.Model):

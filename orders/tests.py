@@ -9,7 +9,9 @@ class OrderOrderingTestCase(TestCase):
     fixtures = ['test_orders.json']
 
     def test_orders_are_split_by_shipping_method(self):
-        #fcm, pri = Order.split_by_shipping_method()
+        fcm, pri = Order.objects.split_by_shipping_method()
+        fcm = [model.pk for model in fcm]
+        pri = [model.pk for model in pri]
         self.assertEqual(results.fcm, fcm)
         self.assertEqual(results.pri, pri)
 
