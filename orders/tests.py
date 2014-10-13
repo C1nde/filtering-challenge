@@ -23,8 +23,10 @@ class OrderOrderingTestCase(TestCase):
         self.assertEqual(results.multiples, multiples)
 
     def test_single_orders_are_sorted(self):
-        #single_sorted_orders = Order.single_orders_are_sorted()
-        self.assertEqual(results.single_sorted_orders, single_sorted_orders)
+        single_sorted_orders = Order.objects.single_orders_are_sorted()
+        items_sizes = [order.items.first().product for order in single_sorted_orders]
+        ordered_right = all([OrderItem.PRIORITY[items_sizes[number]] <= OrderItem.PRIORITY[size] for number, size in enumerate(items_sizes[1:])])
+        self.assertTrue(ordered_right)
 
     def test_multiple_orders_are_split_by_xxl_and_not(self):
         #xxl, not_xxl = Order.orders_split_by_xxl_and_not()

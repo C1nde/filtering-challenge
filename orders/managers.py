@@ -25,3 +25,7 @@ class OrderManager(models.Manager):
             elif order.items__count > 0:
                 multiples.append(order)
         return singles, multiples
+
+    def single_orders_are_sorted(self):
+        orders = self.get_queryset().annotate(models.Count('items')).filter(items__count=1).select_related('items')
+        return sorted(orders, key=lambda order: order.items.first().PRIORITY[order.items.first().product])
