@@ -29,3 +29,15 @@ class OrderManager(models.Manager):
     def single_orders_are_sorted(self):
         orders = self.get_queryset().annotate(models.Count('items')).filter(items__count=1).select_related('items')
         return sorted(orders, key=lambda order: order.items.first().PRIORITY[order.items.first().product])
+
+    def orders_split_by_xxl_and_not(self):
+        orders = self.get_queryset().annotate(models.Count('items')).filter(items__count__gt=1).select_related('items')
+        xxl = []
+        not_xxl = []
+        for order in orders:
+            if "XXL" in order.items.values_list('product', flat=True):
+                xxl.append(order)
+            else:
+                not_xxl.append(order)
+
+        return xxl, not_xxl

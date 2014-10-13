@@ -29,6 +29,8 @@ class OrderOrderingTestCase(TestCase):
         self.assertTrue(ordered_right)
 
     def test_multiple_orders_are_split_by_xxl_and_not(self):
-        #xxl, not_xxl = Order.orders_split_by_xxl_and_not()
+        xxl, not_xxl = Order.objects.orders_split_by_xxl_and_not()
+        xxl = [model.pk for model in xxl]
+        not_xxl = [model.pk for model in not_xxl]
         self.assertEqual(results.xxl, xxl)
         self.assertEqual(results.not_xxl, not_xxl)
