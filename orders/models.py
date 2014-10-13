@@ -27,7 +27,8 @@ class OrderItem(models.Model):
         ('XL', 'Extra Large Tee'),
         ('XXL', 'Double Extra Large Tee'),
     )
-    priority = {'XS': 0, 'S': 1, 'M': 2, 'L': 3, 'XL': 4, 'XXL': 5}
+    PRIORITY = {'XS': 0, 'S': 1, 'M': 2, 'L': 3, 'XL': 4, 'XXL': 5}
+
     order = models.ForeignKey(Order, related_name='items')
     product = models.CharField(max_length=100, choices=PRODUCT_CHOICES)
     quantity = models.PositiveIntegerField(default=1)
