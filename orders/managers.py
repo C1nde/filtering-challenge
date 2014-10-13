@@ -14,3 +14,14 @@ class OrderManager(models.Manager):
             elif model.shipping_method == self.model.PRI:
                 pri.append(model)
         return fcm, pri
+
+    def split_by_single_and_multiple(self):
+        singles = []
+        multiples = []
+        all_orders = self.get_queryset().annotate(models.Count('items')).all()
+        for order in all_orders:
+            if order.items__count == 1:
+                singles.append(order)
+            elif order.items__count > 0:
+                multiples.append(order)
+        return singles, multiples

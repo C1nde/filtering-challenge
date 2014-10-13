@@ -16,7 +16,9 @@ class OrderOrderingTestCase(TestCase):
         self.assertEqual(results.pri, pri)
 
     def test_orders_are_split_by_single_and_multiple(self):
-        #singles, multiples = Order.split_by_single_and_multiple()
+        singles, multiples = Order.objects.split_by_single_and_multiple()
+        singles = [model.pk for model in singles]
+        multiples = [model.pk for model in multiples]
         self.assertEqual(results.singles, singles)
         self.assertEqual(results.multiples, multiples)
 
